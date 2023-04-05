@@ -56,40 +56,40 @@ async def process_messages_endpoint():
 
 
 
-# import boto3
-# import json
-# import time
+import boto3
+import json
+import time
 
-# class SQSConsumer:
-#     def __init__(self, queue_url):
-#         self.sqs = boto3.client('sqs',
-#                                 endpoint_url='http://localhost:4566',
-#                                 region_name='us-east-1',
-#                                 aws_access_key_id='test',
-#                                 aws_secret_access_key='test')
-#         self.queue_url = queue_url
+class SQSConsumer:
+    def __init__(self, queue_url):
+        self.sqs = boto3.client('sqs',
+                                endpoint_url='http://localhost:4566',
+                                region_name='us-east-1',
+                                aws_access_key_id='test',
+                                aws_secret_access_key='test')
+        self.queue_url = queue_url
 
-#     def consume(self, wait_time=20):
-#         while True:
-#             response = self.sqs.receive_message(QueueUrl=self.queue_url,
-#                                                 WaitTimeSeconds=wait_time,
-#                                                 MaxNumberOfMessages=1)
-#             if 'Messages' in response:
-#                 message = response['Messages'][0]
-#                 body = message['Body']
-#                 receipt_handle = message['ReceiptHandle']
-#                 try:
-#                     # Do something with the message body
-#                     print(json.loads(body))
-#                 except Exception as e:
-#                     # Handle the exception as appropriate
-#                     print(f'Error processing message: {str(e)}')
-#                     self.sqs.change_message_visibility(QueueUrl=self.queue_url,
-#                                                         ReceiptHandle=receipt_handle,
-#                                                         VisibilityTimeout=0)
-#                 else:
-#                     # Delete the message from the queue
-#                     self.sqs.delete_message(QueueUrl=self.queue_url,
-#                                             ReceiptHandle=receipt_handle)
-#             else:
-#                 time.sleep(1)
+    def consume(self, wait_time=20):
+        while True:
+            response = self.sqs.receive_message(QueueUrl=self.queue_url,
+                                                WaitTimeSeconds=wait_time,
+                                                MaxNumberOfMessages=1)
+            if 'Messages' in response:
+                message = response['Messages'][0]
+                body = message['Body']
+                receipt_handle = message['ReceiptHandle']
+                try:
+                    # Do something with the message body
+                    print(json.loads(body))
+                except Exception as e:
+                    # Handle the exception as appropriate
+                    print(f'Error processing message: {str(e)}')
+                    self.sqs.change_message_visibility(QueueUrl=self.queue_url,
+                                                        ReceiptHandle=receipt_handle,
+                                                        VisibilityTimeout=0)
+                else:
+                    # Delete the message from the queue
+                    self.sqs.delete_message(QueueUrl=self.queue_url,
+                                            ReceiptHandle=receipt_handle)
+            else:
+                time.sleep(1)

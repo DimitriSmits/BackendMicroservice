@@ -6,4 +6,6 @@ sqlalchemy
 psycopg2
 Boto3
 asyncpg
+asyncio
 Alembic
+aioboto3
