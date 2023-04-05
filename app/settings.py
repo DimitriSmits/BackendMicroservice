@@ -14,6 +14,9 @@ os.environ['POSTGRES_PASSWORD'] = json.dumps('admin')
 os.environ['POSTGRES_DB'] = json.dumps('postgres')
 os.environ['POSTGRES_HOSTNAME'] = json.dumps('localhost:5432')
 
+# Werking docker-compose
+# os.environ['POSTGRES_HOSTNAME'] = json.dumps('db:5432')
+
 # Secret used for various parts of the application, for example as a salt to password hashing
 APP_SECRET = get_json_env('APP_SECRET')
 

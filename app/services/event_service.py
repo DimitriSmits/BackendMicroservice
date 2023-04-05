@@ -16,6 +16,5 @@ class EventService:
         return EventRepository.get_events(db)
 
     def create_event(db:Session, event: EventSchema):
-
         return EventRepository.create_event(db, event)
 

@@ -23,6 +23,8 @@ def get_db():
 
 @event_router.post("/create")
 async def create_event_service(request: RequestEvent, db: Session = Depends(get_db)):    
+    print("TEST REQUEST")
+    print(request.parameter)
     EventService.create_event(db, event=request.parameter)
     return Response(status="Ok",
                     code="200",
