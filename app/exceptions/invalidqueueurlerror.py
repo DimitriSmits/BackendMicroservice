@@ -1,0 +1,2 @@
+class InvalidQueueUrlError(Exception):
+    pass

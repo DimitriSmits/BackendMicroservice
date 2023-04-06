@@ -4,28 +4,38 @@ import json
 from fastapi import Depends
 from sqlalchemy.orm import Session
 from route_dependencies import get_db
+from exceptions import InvalidQueueUrlError
 from services import EventService
 from schemas import RequestEvent
 
 class SQSConsumer:
 
     def __init__(self, queue_url):
-        self.sqs = boto3.client('sqs', endpoint_url='http://localhost:4566')
-        self.queue_url = queue_url
-        self.db = get_db()
-
+        try:
+            self.sqs = boto3.client('sqs', endpoint_url='http://localhost:4566')
+            self.queue_url = queue_url
+            self.db = get_db()
+        except Exception as e:
+            raise InvalidQueueUrlError(f"Invalid queue URL {queue_url}: {str(e)}")
     async def process_message(self, message):
         # Delete the message from the queue
         self.sqs.delete_message(QueueUrl=self.queue_url, ReceiptHandle=message['ReceiptHandle'])
 
     async def consume_messages(self):
         while True:
-            response = self.sqs.receive_message(QueueUrl=self.queue_url, MaxNumberOfMessages=1)
+            try:
+                response = self.sqs.receive_message(QueueUrl=self.queue_url, MaxNumberOfMessages=1)
+            except Exception as e:
+                print(f"Error: {str(e)}. Retrying in 5 minutes.")
+                await asyncio.sleep(300)  # retry in 5 minutes
+                continue
             if 'Messages' not in response:
-                await asyncio.sleep(1)
+                print(f"No new messages, polling again in 1 minute")
+                await asyncio.sleep(60)
                 continue
 
             for message in response['Messages']:
+                print(f"Found a message")
                 message = response['Messages'][0]
                 body = message['Body']
                 receipt_handle = message['ReceiptHandle']
