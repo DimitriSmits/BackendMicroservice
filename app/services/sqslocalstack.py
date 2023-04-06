@@ -2,8 +2,8 @@ import asyncio
 import boto3
 import json
 from fastapi import Depends
-from config import SessionLocal
 from sqlalchemy.orm import Session
+from route_dependencies import get_db
 from services import EventService
 from schemas import RequestEvent
 
@@ -12,11 +12,9 @@ class SQSConsumer:
     def __init__(self, queue_url):
         self.sqs = boto3.client('sqs', endpoint_url='http://localhost:4566')
         self.queue_url = queue_url
-        self.db = SessionLocal()
+        self.db = get_db()
 
     async def process_message(self, message):
-        # Process the message here
-        # print('Received message:', message)
         # Delete the message from the queue
         self.sqs.delete_message(QueueUrl=self.queue_url, ReceiptHandle=message['ReceiptHandle'])
 
@@ -34,7 +32,8 @@ class SQSConsumer:
                 try:
                     json_obj = json.loads(body)
                     request_event = RequestEvent(**json_obj)
-                    EventService.create_event(db=self.db, event=request_event.parameter)
+                    self.db = next(get_db())
+                    EventService.create_event(self.db, event=request_event.parameter)
 
                 except Exception as e:
                     # Handle the exception as appropriate

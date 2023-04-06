@@ -5,20 +5,11 @@ This module contains functions for performing the routes.
 
 from fastapi import APIRouter,Path
 from fastapi import Depends
-from config import SessionLocal
 from sqlalchemy.orm import Session
+from route_dependencies import get_db
 from schemas import Response, RequestApplication
 from services import ApplicationService
 application_router = APIRouter()
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
 
 @application_router.post("/create")
 async def create_application_service(request: RequestApplication, db: Session = Depends(get_db)):    
