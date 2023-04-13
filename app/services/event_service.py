@@ -6,8 +6,6 @@ from sqlalchemy.orm import Session
 from datetime import datetime
 from models import Batch
 from schemas import EventSchema
-from exceptions import InvalidQueueUrlError
-import asyncio
 
 from repositories import EventRepository
 
@@ -19,5 +17,3 @@ class EventService:
 
     def create_event(db:Session, event: EventSchema):
         return EventRepository.create_event(db, event)
-
-

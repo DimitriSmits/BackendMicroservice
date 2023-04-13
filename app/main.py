@@ -26,6 +26,7 @@ app.include_router(organization_router, prefix="/organization", tags=["organizat
 app.include_router(user_router, prefix="/user", tags=["user"])
 app.include_router(event_router, prefix="/event", tags=["event"])
 
+#Start consuming messages from the message queue
 
 try:
     consumer = SQSConsumer(queue_url="http://localhost:4566/000000000000/my-queue")
