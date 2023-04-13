@@ -5,21 +5,13 @@ This module contains functions for performing the routes.
 
 from fastapi import APIRouter,Path
 from fastapi import Depends
-from config import SessionLocal
+import database
 from sqlalchemy.orm import Session
 from schemas import Response, RequestBatch
+from route_dependencies import get_db
 from services import BatchService
 
 batch_router = APIRouter()
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
 
 @batch_router.post("/create")
 async def create_batch_service(request: RequestBatch, db: Session = Depends(get_db)):    

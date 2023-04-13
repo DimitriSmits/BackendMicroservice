@@ -12,6 +12,8 @@ from routers import user_router
 from database import engine
 from database import Base
 from services import SQSConsumer
+from exceptions import InvalidQueueUrlError
+from services import EventService
 import asyncio
 
 models.Base.metadata.create_all(bind=engine)
@@ -24,10 +26,14 @@ app.include_router(organization_router, prefix="/organization", tags=["organizat
 app.include_router(user_router, prefix="/user", tags=["user"])
 app.include_router(event_router, prefix="/event", tags=["event"])
 
+#Start consuming messages from the message queue
 
-consumer = SQSConsumer(
-    queue_url="http://localhost:4566/000000000000/my-queue",
-)
-asyncio.create_task(consumer.run())
+try:
+    consumer = SQSConsumer(queue_url="http://localhost:4566/000000000000/my-queue")
+    asyncio.create_task(consumer.run())
+except InvalidQueueUrlError as e:
+    # Return error response indicating that the queue URL is invalid
+    print(str(e))
+
 
 
