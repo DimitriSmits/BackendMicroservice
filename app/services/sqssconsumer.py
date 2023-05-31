@@ -7,6 +7,8 @@ from route_dependencies import get_db
 from exceptions import InvalidQueueUrlError
 from services import EventService
 from schemas import RequestEvent
+from schemas import EventSchema
+from services import BatchService
 
 class SQSConsumer:
 
@@ -22,6 +24,8 @@ class SQSConsumer:
         self.sqs.delete_message(QueueUrl=self.queue_url, ReceiptHandle=message['ReceiptHandle'])
 
     async def consume_messages(self):
+        events = []
+
         while True:
             try:
                 response = self.sqs.receive_message(QueueUrl=self.queue_url, MaxNumberOfMessages=1)
@@ -34,6 +38,16 @@ class SQSConsumer:
                 await asyncio.sleep(60)
                 continue
 
+            # for message in response['Messages']:
+            #     print(f"Found a message")
+            #     message = response['Messages'][0]
+            #     body = message['Body']
+            #     receipt_handle = message['ReceiptHandle']
+            #     try:
+            #         json_obj = json.loads(body)
+            #         request_event = RequestEvent(**json_obj)
+            #         self.db = next(get_db())
+            #         EventService.create_event(self.db, event=request_event.parameter)
             for message in response['Messages']:
                 print(f"Found a message")
                 message = response['Messages'][0]
@@ -42,8 +56,18 @@ class SQSConsumer:
                 try:
                     json_obj = json.loads(body)
                     request_event = RequestEvent(**json_obj)
-                    self.db = next(get_db())
-                    EventService.create_event(self.db, event=request_event.parameter)
+                    events.append(request_event.parameter)
+                    #If list of events is higher than 100 then send it to the db
+                    if len(events) >= 1:
+                        self.db = next(get_db())
+                        batch_id = BatchService.create_batch(self.db)
+                        updated_events = []
+                        for event in events:
+                            event.batch_id = batch_id  
+                            updated_events.append(event)
+                        events = updated_events
+                        EventService.process_events(self.db, events)
+                        events = []  
 
                 except Exception as e:
                     # Handle the exception as appropriate
@@ -52,6 +76,11 @@ class SQSConsumer:
                                                         ReceiptHandle=receipt_handle,
                                                         VisibilityTimeout=0)
                 #Nieuw
+                #
+                # if events and len(events) < 100:
+                #     print(f"Hij was onder de 100 gaat nu processen")
+                #     EventService.process_events(self.db, events)
+                #     events = []  # Clear the event batch
                 try:
                     await self.process_message(message)
                 except Exception as e:

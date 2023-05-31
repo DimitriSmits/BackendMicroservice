@@ -1,6 +1,7 @@
 from .camel_cased_schema import CamelCasedSchema
 from .requests.request import Request
 from .requests.response import Response
+from .requests.eventrequest import EventRequest
 from .application import ApplicationSchema
 from .requests.requestapplication import RequestApplication
 from .batch import BatchSchema

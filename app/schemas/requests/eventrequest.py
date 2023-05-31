@@ -2,12 +2,10 @@ from typing import Optional, List, Dict, Any
 from datetime import datetime
 from schemas import CamelCasedSchema
 
-class EventSchema(CamelCasedSchema):
-    id: Optional[int] = None
+class EventRequest(CamelCasedSchema):
     name: Optional[str] = None
-    json_data: Optional[Dict[str, Any]] = None
-    created_date: Optional[datetime] = None
-    batch_id: Optional[int] = None
+    startdate: Optional[datetime] = None
+    enddate: Optional[int] = None
     user_id: Optional[int] = None
     application_id: Optional[int] = None
     organization_id: Optional[int] = None

@@ -15,7 +15,9 @@ class BatchService:
 
         return BatchRepository.get_batches(db)
 
-    def create_batch(db:Session, batch: BatchSchema):
+    def create_batch(db:Session):
 
-        return BatchRepository.create_batch(db, batch)
+        return BatchRepository.create_batch(db)
+    
+
 

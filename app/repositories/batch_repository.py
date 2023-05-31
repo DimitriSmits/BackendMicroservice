@@ -15,11 +15,11 @@ class BatchRepository:
 
         return db.query(Batch).offset(skip).limit(limit).all()
 
-    def create_batch(db: Session, batch: BatchSchema):
+    def create_batch(db: Session):
 
-        _batch = Batch(**batch.dict())
-        db.add(_batch)
+        batch = Batch()  # Create a new Batch instance with the current datetime
+        db.add(batch)
         db.commit()
-        db.refresh(_batch)
-        return _batch
+        db.refresh(batch)
+        return batch.id
 
