@@ -25,7 +25,13 @@ class EventService:
   
         testjelist = EventRepository.get_eventscount_by_name_and_organization(db, eventrequest)
         return testjelist
+    
     def get_events_by_name_and_organization(db: Session, eventrequest: EventRequest, skip: int = 0, limit: int = 100):
   
         testjelist = EventRepository.get_events_by_name_and_organization(db, eventrequest)
+        return testjelist
+    
+    def get_events_by_month(db: Session, eventrequest: EventRequest, skip: int = 0, limit: int = 100):
+  
+        testjelist = EventRepository.get_events_by_month(db, eventrequest)
         return testjelist

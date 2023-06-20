@@ -40,10 +40,8 @@ async def get_events_namecountlist(
     enddate: Optional[str] = Query(None),
     application: Optional[int] = Query(None),
 ):
-    
     event_request = EventRequest()
     event_request.application_id = application
-    #User_ID used for organization_id, change later
     event_request.user_id = 1
     event_request.organization_id = organization
     event_request.startdate = startdate
@@ -52,7 +50,7 @@ async def get_events_namecountlist(
     namecountlist = EventService.get_eventscount_by_name_and_organization(db, event_request, skip, limit)
     return Response(status="Ok", code="200", message="Success fetch all data", result=namecountlist)
 
-@event_router.get("/namecountlistt")
+@event_router.get("/eventsbymonth")
 async def get_events_namecountlist(
     skip: int = 0,
     limit: int = 100,
@@ -62,16 +60,14 @@ async def get_events_namecountlist(
     enddate: Optional[str] = Query(None),
     application: Optional[int] = Query(None),
 ):
-    
     event_request = EventRequest()
     event_request.application_id = application
-    #User_ID used for organization_id, change later
     event_request.user_id = 1
     event_request.organization_id = organization
     event_request.startdate = startdate
     event_request.enddate = enddate
 
-    namecountlist = EventService.get_eventscount_by_name_and_organization(db, event_request, skip, limit)
+    namecountlist = EventService.get_events_by_month(db, event_request, skip, limit)
     return Response(status="Ok", code="200", message="Success fetch all data", result=namecountlist)
 
 @event_router.get("/eventsdetails")
@@ -81,15 +77,22 @@ async def get_events_eventsdetails(
     db: Session = Depends(get_db),
     name: Optional[str] = Query(None),
     organization: Optional[int] = Query(None),
+    startdate: Optional[str] = Query(None),
+    enddate: Optional[str] = Query(None),
     application: Optional[int] = Query(None),
 ):
-    print("JAJAJAJA") 
     event_request = EventRequest()
     event_request.application_id = application
-    #User_ID used for organization_id, change later
     event_request.user_id = 1
     event_request.organization_id = organization
     event_request.name = name
+    event_request.startdate = startdate
+    event_request.enddate = enddate
 
-    namecountlist = EventService.get_eventscount_by_name_and_organization(db, event_request, skip, limit)
-    return Response(status="Ok", code="200", message="Success fetch all data", result=namecountlist)
+    eventsbyname = EventService.get_events_by_name_and_organization(db, event_request, skip, limit)
+    return {
+        "status": "Ok",
+        "code": 200,
+        "message": "Success fetch all data",
+        "result": [(event) for event in eventsbyname]
+    }

@@ -8,33 +8,27 @@ services:
       - "8000:8000"
     depends_on:
       - db
-    environment:
-      # - DATABASE_URL=postgresql://postgres:admin@db:5433/postgres'
-        - DATABASE_URL=postgresql://dockerpostgres:admin@db:5432/dockerpostgres'
-    # volumes:
-    #   - ./scripts:/scripts
-    # command: /bin/bash /scripts/entrypoint.sh
+    env_file:
+      - ./app.env
       
   db:
     image: postgres
     restart: always
-    environment:
-      POSTGRES_USER: dockerpostgres
-      POSTGRES_PASSWORD: admin
-      POSTGRES_DB: dockerpostgres
-    # env_file:
-    #   - ./db/db.env
+    env_file:
+      - ./db/db.env
     ports:
       - "5433:5432"
-  # localstack:
-  #   image: localstack/localstack
-  #   container_name: localstack
-  #   depends_on:
-  #     - app
-  #   environment:
-  #     - SERVICES=sqs
-  #   ports:
-  #     - "4566:4566"
-  #   command: --output json
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    depends_on:
+      - app
+    environment:
+      - SERVICES=sqs
+    ports:
+      - "4566:4566"
+    command: --output json
+    env_file:
+      - ./sqs.env
 
     
