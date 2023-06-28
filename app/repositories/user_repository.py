@@ -17,9 +17,9 @@ class UserRepository:
 
     def create_user(db: Session, user: UserSchema):
 
-        _user = User(**user.dict())
-        db.add(_user)
+        user = User(**user.dict())
+        db.add(user)
         db.commit()
-        db.refresh(_user)
-        return _user
+        db.refresh(user)
+        return user
 

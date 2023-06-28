@@ -2,27 +2,22 @@
 This module contains functions for performing the settings.
 """
 import json
+from dotenv import load_dotenv
+
+load_dotenv()
 import os
 from sys import argv
-
 from common import get_json_env
 
 #Default local json env
-os.environ['APP_SECRET'] = json.dumps('secret')
-os.environ['POSTGRES_USER'] = json.dumps('postgres')
-os.environ['POSTGRES_PASSWORD'] = json.dumps('admin')
-os.environ['POSTGRES_DB'] = json.dumps('postgres')
-os.environ['POSTGRES_HOSTNAME'] = json.dumps('localhost:5432')
-
-# Werking docker-compose
 # os.environ['APP_SECRET'] = json.dumps('secret')
-# os.environ['POSTGRES_USER'] = json.dumps('dockerpostgres')
+# os.environ['POSTGRES_USER'] = json.dumps('postgres')
 # os.environ['POSTGRES_PASSWORD'] = json.dumps('admin')
-# os.environ['POSTGRES_DB'] = json.dumps('dockerpostgres')
-# os.environ['POSTGRES_HOSTNAME'] = json.dumps('db:5432')
+# os.environ['POSTGRES_DB'] = json.dumps('postgres')
+# os.environ['POSTGRES_HOSTNAME'] = json.dumps('localhost:5432')
 
 # Secret used for various parts of the application, for example as a salt to password hashing
-APP_SECRET = get_json_env('APP_SECRET')
+APP_SECRET = 'APP_SECRET'
 
 
 # Is automatically set to True whenever Alembic is used with either the upgrade, downgrade or current option.
@@ -39,13 +34,12 @@ CORS_ALLOWED_ORIGINS = get_json_env('CORS_ALLOWED_ORIGINS', [])
 
 
 # Database settings
-POSTGRES_USER = get_json_env('POSTGRES_USER')
-POSTGRES_PASSWORD = get_json_env('POSTGRES_PASSWORD')
-POSTGRES_DB = get_json_env('POSTGRES_DB')
-POSTGRES_HOSTNAME = get_json_env('POSTGRES_HOSTNAME')
+POSTGRES_USER = os.getenv('POSTGRES_USER')
+POSTGRES_PASSWORD = os.getenv('POSTGRES_PASSWORD')
+POSTGRES_DB = os.getenv('POSTGRES_DB')
+POSTGRES_HOSTNAME = os.getenv('POSTGRES_HOSTNAME')
 CONN_STRING = f'postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOSTNAME}/{POSTGRES_DB}'
 ASYNC_CONN_STRING = f'postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOSTNAME}/{POSTGRES_DB}'
-
 
 # The default name to use for the root cluster
 ROOT_CLUSTER_NAME = 'Products'

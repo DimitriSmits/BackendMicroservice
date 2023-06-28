@@ -17,7 +17,8 @@ class BatchRepository:
 
     def create_batch(db: Session):
 
-        batch = Batch()  # Create a new Batch instance with the current datetime
+        batch = Batch()
+        # Create a new Batch instance with the current datetime
         db.add(batch)
         db.commit()
         db.refresh(batch)

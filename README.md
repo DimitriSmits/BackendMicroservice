@@ -8,7 +8,7 @@ You can download the installation package from the Docker website.<br>
 
 <h1>Step 2: Start Localstack in Docker</h1>
 To start Localstack in Docker, run the following command in your terminal:<br>
-docker run --name localstack -p 4566:4566 -e SERVICES=sqs -e DEFAULT_REGION=us-east-1 localstack/localstack<br>
+docker run --name localstack -p 4566:4566 -e SERVICES=sqs -e DEFAULT_REGION=us-east-1 -e <br> AWS_ACCESS_KEY_ID=localstackdevelopment -e AWS_SECRET_ACCESS_KEY=localstackdevelopment localstack/localstack
 <br>
 This command will download the Localstack image, create a container named "localstack", <br>and start the container with the SQS service enabled.
 

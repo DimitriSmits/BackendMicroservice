@@ -5,11 +5,11 @@ services:
       context: app
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - "8002:8002"
     depends_on:
       - db
     env_file:
-      - ./app.env
+      - ./.env
       
   db:
     image: postgres
@@ -18,17 +18,17 @@ services:
       - ./db/db.env
     ports:
       - "5433:5432"
-  localstack:
-    image: localstack/localstack
-    container_name: localstack
-    depends_on:
-      - app
-    environment:
-      - SERVICES=sqs
-    ports:
-      - "4566:4566"
-    command: --output json
-    env_file:
-      - ./sqs.env
+  # localstack:
+  #   image: localstack/localstack
+  #   container_name: localstack
+  #   depends_on:
+  #     - app
+  #   environment:
+  #     - SERVICES=sqs
+  #   ports:
+  #     - "4566:4566"
+  #   command: --output json
+  #   env_file:
+  #     - ./sqs.env
 
     
