@@ -5,7 +5,7 @@
 1. You have [docker](https://docs.docker.com/get-docker/) installed on your local machine
 2. Make sure docker is running
 3. Make sure that PowerSuite is running
-4. You have setup the LocalStack container using the - [Docs](/READMELOCALSTACK.md)
+4. You have setup the LocalStack container using the [docs](/READMELOCALSTACK.md)
 
 ## Step 1 - Setup `.env` files
 
