@@ -15,7 +15,6 @@ There are 2 env file that you have to set up before building and running the doc
   - Used by `docker-compose.yml` to build and run docker containers
 - db: `db/db.env`
   - Used by the backend for credentials
-  - [Docs](./envs/server-app.md)
 
 In each of these directories there is an `.env.example`, duplicate it and rename it to `.env` and fill in each of the variables described in the env file.
 
