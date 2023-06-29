@@ -47,6 +47,7 @@ This will create a queue named "my-queue" and “users-queue” in Localstack. Y
 <h1>Step 5: Extra (windows cmd commands)</h1>
 Listing the queue:<br>
 aws --endpoint-url=http://localhost:4566 sqs list-queues --output json<br><br>
+
 ```env
 aws --endpoint-url=http://localhost:4566 sqs list-queues --output json
 ```
