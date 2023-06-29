@@ -26,9 +26,12 @@ aws configure<br>
 •	Default output format: json
 
 <h1>Step 4: Create a Queue</h1>
-To create a queue, you can use the AWS CLI. In your terminal,<br> run the following command to create a queue named "my-queue":<br><br>
-aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name my-queue<br><br>
-This will create a queue named "my-queue" in Localstack. <br>You will now be able to connect to this queue from cmd or application
+To create a queue, you can use the AWS CLI. In your terminal, run the following command to create a queue named "my-queue". This queue is meant for the events:<br><br>
+aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name my-queue<br>
+run the following command to create a queue named "users-queue". This queue is meant for the sending the users that are created in the powersuite:<br><br>
+aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name users-queue<br>
+This will create a queue named "my-queue" and “users-queue” in Localstack. You will now be able to connect to this queue from cmd or application
+
 
 
 <h1>Step 5: Extra (windows cmd commands)</h1>
