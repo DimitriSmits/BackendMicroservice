@@ -33,7 +33,6 @@ aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name my-queue
 ```
 
 run the following command to create a queue named "users-queue". This queue is meant for the sending the users that are created in the powersuite:<br>
-aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name users-queue<br><br>
 
 ```env
 aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name users-queue
