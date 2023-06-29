@@ -31,9 +31,7 @@ aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name my-queue<
 run the following command to create a queue named "users-queue". This queue is meant for the sending the users that are created in the powersuite:<br>
 aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name users-queue<br><br>
 This will create a queue named "my-queue" and “users-queue” in Localstack. You will now be able to connect to this queue from cmd or application<br>
-#### **Client_id and client_secret**
 
-Should be client_id and client_secret in generated for the application by PowerSuite.
 
 ```env
 CLIENT_ID=
