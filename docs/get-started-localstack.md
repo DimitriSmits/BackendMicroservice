@@ -27,7 +27,6 @@ aws configure<br>
 
 <h1>Step 4: Create a Queue</h1>
 To create a queue, you can use the AWS CLI. In your terminal, run the following command to create a queue named "my-queue". This queue is meant for the events:<br>
-aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name my-queue<br><br>
 
 ```env
 aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name my-queue
@@ -39,7 +38,7 @@ This will create a queue named "my-queue" and “users-queue” in Localstack. Y
 
 
 ```env
-aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name my-queue
+aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name users-queue
 ```
 
 
