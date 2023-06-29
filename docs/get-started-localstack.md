@@ -46,25 +46,21 @@ This will create a queue named "my-queue" and “users-queue” in Localstack. Y
 
 <h1>Step 5: Extra (windows cmd commands)</h1>
 Listing the queue:<br>
-aws --endpoint-url=http://localhost:4566 sqs list-queues --output json<br><br>
 
 ```env
 aws --endpoint-url=http://localhost:4566 sqs list-queues --output json
 ```
 Sending a hello world string:<br>
-aws --endpoint-url=http://localhost:4566 sqs send-message --queue-url http://localhost:4566/000000000000/my-queue --message-body "Hello, world!" --output json<br><br>
 
 ```env
 aws --endpoint-url=http://localhost:4566 sqs send-message --queue-url http://localhost:4566/000000000000/my-queue --message-body "Hello, world!" --output json
 ```
 Sending a json file (message.json in this case):<br>
-aws --endpoint-url=http://localhost:4566 sqs send-message --queue-url http://localhost:4566/000000000000/my-queue --message-body file://message.json<br><br>
 
 ```env
 aws --endpoint-url=http://localhost:4566 sqs send-message --queue-url http://localhost:4566/000000000000/my-queue --message-body file://message.json
 ```
 Receiving the message:<br>
-aws --endpoint-url=http://localhost:4566 sqs receive-message --queue-url http://localhost:4566/000000000000/my-queue --output json
 
 ```env
 aws --endpoint-url=http://localhost:4566 sqs receive-message --queue-url http://localhost:4566/000000000000/my-queue --output json
